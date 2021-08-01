@@ -9,7 +9,7 @@
 #include<string>
 #include <queue>
 #include "IJudgePartial.h"
-
+#include <iomanip>
 //class IPhysxObjectCreator;//循環参照対策　そのうち循環参照じたいをやめる
 
 using namespace physx;

@@ -4,6 +4,8 @@ using namespace std;
 using namespace physx;
 #define PX_RELEASE(x)	if(x)	{ x->release(); x = NULL;	}
 #define PVD_USEDEBUG false
+#define USE_GPU false
+#define MAKE_OBJECTDATA false
 namespace PhysxMain {
 	
 	PxDefaultAllocator      gAllocator;
@@ -20,6 +22,10 @@ namespace PhysxMain {
     //ObjectDataHolder* _objectDataHolder = NULL;
 
     string tempReflectData;
+
+#if USE_GPU
+    PxCudaContextManager* gCudaContextManager = NULL;
+#endif
 	void InitPhysics(bool init)
 	{
         gFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gAllocator, gErrorCallback);
@@ -33,11 +39,24 @@ namespace PhysxMain {
         PxInitExtensions(*gPhysics, gPvd);
 
         // Scene setting
+
+
+
+
         PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
         sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);          // Right-hand coordinate system, Y-UP.
         gDispatcher = PxDefaultCpuDispatcherCreate(1);         // The number of worker threads is one.
         sceneDesc.cpuDispatcher = gDispatcher;
         sceneDesc.filterShader = PxDefaultSimulationFilterShader;
+#if USE_GPU //gpuを利用する場合
+
+        cout <<"use gpu"<< endl;
+        PxCudaContextManagerDesc  cudaContextManagerDesc;
+        gCudaContextManager = PxCreateCudaContextManager(*gFoundation, cudaContextManagerDesc, PxGetProfilerCallback());
+        sceneDesc.cudaContextManager = gCudaContextManager;
+        sceneDesc.flags |= PxSceneFlag::eENABLE_GPU_DYNAMICS;
+        sceneDesc.broadPhaseType = PxBroadPhaseType::eGPU;
+#endif
         gScene = gPhysics->createScene(sceneDesc);
         float gravityRate = 1.0f;
         gScene->setGravity(PxVec3(0, -9.81 * gravityRate, 0));
@@ -90,14 +109,17 @@ namespace PhysxMain {
 
         stepcount1++;
         stepcount2++;
-        if (stepcount1 > 5) {
+        if (stepcount1 > 5) {//オブジェクトデータ反映
             stepcount1 = 0;
             _physxEnvirement->ReflectData2Envirement();
         }
-        if (stepcount2 > 10) {
+#if MAKE_OBJECTDATA
+        if (stepcount2 > 300) {//オブジェクトデータ作成
             stepcount2 = 0;
             _physxEnvirement->HashLogSet();
         }
+#endif
+
 	}
     void SetPhysxEnvirement(IPhysxEnvirement& env)
     {

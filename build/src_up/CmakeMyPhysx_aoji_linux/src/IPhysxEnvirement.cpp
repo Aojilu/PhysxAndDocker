@@ -1,51 +1,6 @@
 #include "IPhysxEnvirement.h"
 
 using namespace std;
-//string IPhysxEnvirement::GetLog(int containerCount) {
-//	stringstream ss;
-//
-//	auto dataHolderList = _physxObjectCreator->_dataHolderList;
-//	if (containerCount == -1) {
-//		for (int i = 0; i < dataHolderList.size(); i++) {
-//			auto dataHolder = dataHolderList[i];
-//			for (auto itr = dataHolder->_datalist.begin(); itr != dataHolder->_datalist.end(); ++itr) {
-//				//‚±‚±‚Åƒf[ƒ^‚Ì‘‚«‚¾‚µ•û‚ğŒˆ’è‚µ‚Ä‚¢‚é‚ªA–{“–‚Í‚¿‚á‚ñ‚ÆŒˆ‚ß‚½‚¢
-//				//\n@ƒf[ƒ^ƒuƒƒbƒN‚ÌØ‚ê–Ú@;@ƒf[ƒ^‚Ì‚ÌØ‚ê–Ú
-//				auto obj = itr->second;
-//				auto tr = obj->_objectData->getGlobalPose().p;
-//				auto qr = obj->_objectData->getGlobalPose().q;
-//				ss << "container:" << i << ";";
-//				ss << "label:" << itr->first << ";";
-//				ss << "isDynamic:" << obj->_isDynamic << ";";
-//				ss << "isKinematic:" << obj->_isKinematic << ";";
-//				ss << "obj_tr:" << tr.x << "," << tr.y << "," << tr.z << ";";
-//				ss << "obj_qr:" << qr.x << "," << qr.y << "," << qr.z << "," << qr.w << ";";
-//				ss << "obj_geometory:" << obj->_geometoryInfo << ";" << "\n";
-//			}
-//		}
-//	}
-//	else {
-//		if (containerCount >= dataHolderList.size())return "";
-//		auto dataHolder = dataHolderList[containerCount];
-//		for (auto itr = dataHolder->_datalist.begin(); itr != dataHolder->_datalist.end(); ++itr) {
-//			//‚±‚±‚Åƒf[ƒ^‚Ì‘‚«‚¾‚µ•û‚ğŒˆ’è‚µ‚Ä‚¢‚é‚ªA–{“–‚Í‚¿‚á‚ñ‚ÆŒˆ‚ß‚½‚¢
-//			//\n@ƒf[ƒ^ƒuƒƒbƒN‚ÌØ‚ê–Ú@;@ƒf[ƒ^‚Ì‚ÌØ‚ê–Ú
-//			auto obj = itr->second;
-//			auto tr = obj->_objectData->getGlobalPose().p;
-//			auto qr = obj->_objectData->getGlobalPose().q;
-//			ss << "container:" << containerCount << ";";
-//			ss << "label:" << itr->first << ";";
-//			ss << "isDynamic:" << obj->_isDynamic << ";";
-//			ss << "isKinematic:" << obj->_isKinematic << ";";
-//			ss << "obj_tr:" << tr.x << "," << tr.y << "," << tr.z << ";";
-//			ss << "obj_qr:" << qr.x << "," << qr.y << "," << qr.z << "," << qr.w << ";";
-//			ss << "obj_geometory:" << obj->_geometoryInfo << ";" << "\n";
-//		}
-//	}
-//
-//
-//	return ss.str();
-//}
 
 string IPhysxEnvirement::CreateLog(int serch,int send) {
 
@@ -54,33 +9,33 @@ string IPhysxEnvirement::CreateLog(int serch,int send) {
 	if (serch >= dataHolderList.size())return "";
 	auto dataHolder = dataHolderList[serch];
 	for (auto itr = dataHolder->_datalist.begin(); itr != dataHolder->_datalist.end(); ++itr) {
-		//‚±‚±‚Åƒf[ƒ^‚Ì‘‚«‚¾‚µ•û‚ğŒˆ’è‚µ‚Ä‚¢‚é‚ªA–{“–‚Í‚¿‚á‚ñ‚ÆŒˆ‚ß‚½‚¢
-		//\n@ƒf[ƒ^ƒuƒƒbƒN‚ÌØ‚ê–Ú@;@ƒf[ƒ^‚Ì‚ÌØ‚ê–Ú
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Åƒfï¿½[ï¿½^ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è‚µï¿½Ä‚ï¿½ï¿½é‚ªï¿½Aï¿½{ï¿½ï¿½ï¿½Í‚ï¿½ï¿½ï¿½ï¿½ÆŒï¿½ï¿½ß‚ï¿½ï¿½ï¿½
+		//\nï¿½@ï¿½fï¿½[ï¿½^ï¿½uï¿½ï¿½ï¿½bï¿½Nï¿½ÌØ‚ï¿½Ú@;ï¿½@ï¿½fï¿½[ï¿½^ï¿½Ì‚ÌØ‚ï¿½ï¿½
 		auto obj = itr->second;
 		auto tr = obj->_objectData->getGlobalPose().p;
 		auto qr = obj->_objectData->getGlobalPose().q;
-		ss << "container:" << send << ";";
-		ss << "label:" << itr->first << ";";
-		ss << "isDynamic:" << obj->_isDynamic << ";";
-		ss << "isKinematic:" << obj->_isKinematic << ";";
-		ss << "obj_tr:" << tr.x << "," << tr.y << "," << tr.z << ";";
-		ss << "obj_qr:" << qr.x << "," << qr.y << "," << qr.z << "," << qr.w << ";";
-		ss << "obj_geometory:" << obj->_geometoryInfo << ";" << "\n";
+		ss << "c:" << send << ";";//ï¿½Rï¿½ï¿½ï¿½eï¿½iï¿½Ôï¿½
+		ss << "l:" << itr->first << ";";//ï¿½ï¿½ï¿½xï¿½ï¿½
+		ss << "d:" << obj->_isDynamic << ";";//dynamicï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½
+		ss << "k:" << obj->_isKinematic << ";";//kinematicï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½
+		ss << "p:" <<fixed<<setprecision(3)<< tr.x << "," << tr.y << "," << tr.z << ";";//position ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½3ï¿½ï¿½ï¿½Ü‚Å‚É‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
+		ss << "q:" << qr.x << "," << qr.y << "," << qr.z << "," << qr.w << ";";//quartanion
+		ss << "g:" << obj->_geometoryInfo << ";" << "\n";//geometory
 	}
 
 	return ss.str();
 }
 
-//ƒf[ƒ^‚ğó‚¯æ‚Á‚ÄŠÂ‹«‚É”½‰f
-//Šî–{“I‚Éoverride‚µ‚Äg‚¤‚Ì‚Åƒeƒ“ƒvƒŒ[ƒg“I‚È‚à‚Ì
-//î•ñæ“¾ˆ—‚¾‚¯Ø‚èo‚µ‚½‚¢
+//ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ó‚¯ï¿½ï¿½ï¿½ÄŠÂ‹ï¿½ï¿½É”ï¿½ï¿½f
+//ï¿½ï¿½{ï¿½Iï¿½ï¿½overrideï¿½ï¿½ï¿½Ägï¿½ï¿½ï¿½Ì‚Åƒeï¿½ï¿½ï¿½vï¿½ï¿½ï¿½[ï¿½gï¿½Iï¿½È‚ï¿½ï¿½ï¿½
+//ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø‚ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void IPhysxEnvirement::ReflectData2Envirement() {
 	if (_gScene == NULL)return;
 	//vector<string> objectDataList= MyExtention::Split(reflect, '\n');
 	//for (int i = 0; i < objectDataList.size(); i++) {
 	//	vector<string> labelList = MyExtention::Split(objectDataList[i], ';');
 
-	//	//label‚Ì’Šo
+	//	//labelï¿½Ì’ï¿½ï¿½o
 	//	string label = MyExtention::Split(labelList[1], ':')[1];
 	//	if (_physxObjectCreator->FindObject(label, 0) != NULL) {
 	//		continue;
@@ -88,16 +43,16 @@ void IPhysxEnvirement::ReflectData2Envirement() {
 	//	else {
 	//		cout << label << endl;
 	//	}
-	//	//IsDynamic‚Ì’Šo
+	//	//IsDynamicï¿½Ì’ï¿½ï¿½o
 	//	bool isDynamic = MyExtention::Split(labelList[2], ':')[1] == "1";
-	//	//IsKinematic‚Ì’Šo
+	//	//IsKinematicï¿½Ì’ï¿½ï¿½o
 	//	bool isKinematic = MyExtention::Split(labelList[3], ':')[1] == "1";
-	//	//transform‚Ì’Šo
+	//	//transformï¿½Ì’ï¿½ï¿½o
 	//	string trText = MyExtention::Split(labelList[4], ':')[1];
 	//	vector<string> trValues = MyExtention::Split(trText, ',');
 	//	PxVec3* pos = new PxVec3(stof( trValues[0]), stof(trValues[1]), stof(trValues[2]));
 
-	//	//quatanion‚Ì’Šo
+	//	//quatanionï¿½Ì’ï¿½ï¿½o
 	//	string quatText = MyExtention::Split(labelList[5], ':')[1];
 	//	vector<string> quatValues = MyExtention::Split(quatText, ',');
 	//	PxQuat* quat = new PxQuat(stof(quatValues[0]), stof(quatValues[1]), stof(quatValues[2]), stof(quatValues[3]));
@@ -108,7 +63,7 @@ void IPhysxEnvirement::ReflectData2Envirement() {
 	//	if (isDynamic)_physxObjectCreator->createDynamic(PxTransform(*pos, *quat), *ObjectData_toHolder::ConvertText2Geometry(geoinfo),label,isKinematic);
 	//	else _physxObjectCreator->createStatic(PxTransform(*pos, *quat), *ObjectData_toHolder::ConvertText2Geometry(geoinfo),label);
 
-	//	//std::this_thread::sleep_for(std::chrono::milliseconds(1));//d‚·‚¬‚Ä‚ß‚Á‚¿‚á‘Ò‚½‚È‚¢‚Æ‚¢‚¯‚È‚¢@ƒIƒuƒWƒFƒNƒg¶¬•û–@‚ğ‰ü‘P‚µ‚½‚ç¡‚¹‚é‚©‚àH
+	//	//std::this_thread::sleep_for(std::chrono::milliseconds(1));//ï¿½dï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ß‚ï¿½ï¿½ï¿½ï¿½ï¿½Ò‚ï¿½ï¿½È‚ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½@ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½Pï¿½ï¿½ï¿½ï¿½ï¿½ç¡ï¿½ï¿½ï¿½é‚©ï¿½ï¿½ï¿½H
 	//}
 	////cout <<"reflectData="<< _reflectData << endl;
 }

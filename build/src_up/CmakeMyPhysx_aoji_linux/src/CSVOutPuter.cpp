@@ -1,35 +1,42 @@
 #pragma once
 #include "CSVOutPuter.h"
+#include <iomanip>
 using namespace std;
 
 string CreateTextName();
-CSVOutPuter::CSVOutPuter(string title,int count) {
+CSVOutPuter::CSVOutPuter(string title,int count,int datasize) {
 	_setDataDistance = count;
+	_maxDataSize=datasize;
 	_nowCount = 0;
 	_title = "_"+title;
 }
 
-void CSVOutPuter::TryAddData(float data) {
+bool CSVOutPuter::TryAddData(float data) {
+
+	if (_outData.size() >= _maxDataSize)return false;
 	_nowCount++;
 	if (_nowCount == _setDataDistance) {
 		_nowCount = 0;
 		_outData.push_back(data);
+		if (_outData.size() == _maxDataSize)cout << "outputter-" << _title << " filled" << endl;
 	}
+	return true;
 }
 
 string CSVOutPuter::GetOutPutText() {
 	stringstream ss;
 	for (int i = 0; i < _outData.size(); i++) {
-		ss << _outData[i];
-		if (i < _outData.size())ss << ",";
+		ss << _outData[i] << ",";
 	}
-	return ss.str();
+	return  ss.str().substr(0,ss.str().length()-1);
 }
+
+
 void CSVOutPuter::OutPutCSV() {
-	string textName = CreateTextName();
-	ofstream outputFile(_title+textName);
-	outputFile << GetOutPutText();
-	outputFile.close();
+	//string textName = CreateTextName();
+	//ofstream outputFile(_title+textName);
+	//outputFile << GetOutPutText();
+	//outputFile.close();
 }
 
 string CreateTextName() {

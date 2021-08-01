@@ -35,11 +35,10 @@ namespace PhysXFarcade {
 		}
 		_physcsFrameActor.Update();
 
-		if (_isActive_csvRecord) {
-			float idledt = _physcsFrameActor.GetProgressTime();//フレームレート
-			_csvOutPutFactory.Update("update", idledt);
-			_csvOutPutFactory.Update("objCount_update", _objCreator->GetObjeCount());
-		}
+		//if (_isActive_csvRecord) {
+		//	float idledt = _physcsFrameActor.GetProgressTime();//フレームレート
+		//	//_csvOutPutFactory.Update("objCount_update", _objCreator->GetObjeCount());
+		//}
 
 		//cout << "idledt " << idledt << " sec" << "\n";
 		//フレーム処理
@@ -56,25 +55,19 @@ namespace PhysXFarcade {
 			auto dur = chrono::system_clock::now() - start;
 			auto misec = std::chrono::duration_cast<std::chrono::microseconds>(dur).count();//処理時間(msec)
 			float sec = misec / 1000000.0f;//処理時間(sec)
-			_csvOutPutFactory.Update("simulate", sec);
-			_csvOutPutFactory.Update("objCount_simulate", _objCreator->GetObjeCount());
-			//_outFactory.Update("objectCount", GetObjectCount());
-			//cout << "pSimulate: " << sec << ",interval: " << dt / _physicsTimeScale << "\n";
-			//cout << GetObjectCount() << "\n";
-			//cout << "pSimulate: " << sec << ",interval: " << dt / _physicsTimeScale << ": isOver:" << (sec > dt / _physicsTimeScale) << "\n";
-			//cout << "pSimulate: " << sec << ",interval: " << dt / _physicsTimeScale << ": intervalOver:" << (0.03f<dt/_physicsTimeScale) << "\n";
 
-			//cout<<  "physics simultare: " << sec << "sec\n";
-			//cout << "coal interval    : " << dt << "sec" << "\n";
-			//cout << "physcs_step " << dt << " sec" << "\n";
+			_csvOutPutFactory.Update("simulate", sec);
+			_csvOutPutFactory.Update("objCount", _objCreator->GetObjeCount());
+			_csvOutPutFactory.Update("update", dt);//フレームレート
+			if (!_csvOutPutFactory.IsActive())EndCSVRecord();
 		}
 	}
 
 	void RecieveInput(unsigned char input, int x, int y)
 	{
 		if (input == 27) {
-			cout << "output file"<<endl;
-			EndCSVRecord();
+			//cout << "output file"<<endl;
+			//EndCSVRecord();
 			exit(0);
 		}
 		if (toupper(input) == 'R') {
@@ -133,10 +126,10 @@ namespace PhysXFarcade {
 
 	void StartCSVRecord() {
 		_isActive_csvRecord = true;
-		_csvOutPutFactory.AddDataSet("objCount_update", 5);
-		_csvOutPutFactory.AddDataSet("objCount_simulate", 5);
-		_csvOutPutFactory.AddDataSet("update", 5);
-		_csvOutPutFactory.AddDataSet("simulate", 5);
+		//_csvOutPutFactory.AddDataSet("objCount_update", 5);
+		_csvOutPutFactory.AddDataSet("objCount", 1,1);
+		_csvOutPutFactory.AddDataSet("update", 1,500);
+		_csvOutPutFactory.AddDataSet("simulate", 1,500);
 	}
 
 	void EndCSVRecord() {

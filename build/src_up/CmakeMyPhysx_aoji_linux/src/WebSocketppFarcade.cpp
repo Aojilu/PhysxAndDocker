@@ -46,8 +46,7 @@
 typedef websocketpp::client<websocketpp::config::asio_client> client;
 #pragma region echoclient
 function<void(string)> _recieveMessageFunc;
-function<string()> _backMessageFunc;
-function<void(string)>_replayMessageFunc;
+function<string()> _backMessageFunc;//データを送り返すときの処理
 
 
     //typedef websocketpp::client<websocketpp::config::asio_client> echoclient;
@@ -72,7 +71,8 @@ function<void(string)>_replayMessageFunc;
         //送り返し
         if (msg->get_payload() == "back") {
             if (!_backMessageFunc)return;
-            c->send(hdl, "re" + _backMessageFunc(), msg->get_opcode(), ec);
+            //c->send(hdl, "re" + _backMessageFunc(), msg->get_opcode(), ec);
+            c->send(hdl, _backMessageFunc(), msg->get_opcode(), ec);
             if (ec) {
                 std::cout << "Echo failed because: " << ec.message() << std::endl;
             }
@@ -85,6 +85,7 @@ function<void(string)>_replayMessageFunc;
 
 #pragma region client
 
+    function<void(string)>_replayMessageFunc;//帰ってきたデータの処理
 
     class connection_metadata {
     public:
@@ -124,7 +125,7 @@ function<void(string)>_replayMessageFunc;
         }
 
         void on_message(websocketpp::connection_hdl, client::message_ptr msg) {
-            if (msg->get_opcode() == websocketpp::frame::opcode::text) {
+            if (msg->get_opcode() == websocketpp::frame::opcode::text) {//この条件よくわからない
                 m_messages.push_back("<< " + msg->get_payload());
                 if (_replayMessageFunc)_replayMessageFunc(msg->get_payload());
             }
@@ -317,42 +318,43 @@ function<void(string)>_replayMessageFunc;
         websocket_endpoint endpoint;
 
 
-        void Listen()
-        {
+        //void Listen()
+        //{
 
-            //server echo_server;
-            //server* echo_server_a = &echo_server;
+        //    //server echo_server;
+        //    //server* echo_server_a = &echo_server;
 
-            //try {
+        //    //try {
 
-            //    // Set logging settings
-            //    echo_server.set_access_channels(websocketpp::log::alevel::all);
-            //    echo_server.clear_access_channels(websocketpp::log::alevel::frame_payload);
+        //    //    // Set logging settings
+        //    //    echo_server.set_access_channels(websocketpp::log::alevel::all);
+        //    //    echo_server.clear_access_channels(websocketpp::log::alevel::frame_payload);
 
-            //    // Initialize Asio
-            //    echo_server.init_asio();
+        //    //    // Initialize Asio
+        //    //    echo_server.init_asio();
 
-            //    // Register our message handler
-            //    echo_server.set_message_handler(bind(&on_message, &echo_server, ::_1, ::_2));
+        //    //    // Register our message handler
+        //    //    echo_server.set_message_handler(bind(&on_message, &echo_server, ::_1, ::_2));
 
-            //    // Listen on port 9002
-            //    echo_server.listen(9002);
+        //    //    // Listen on port 9002
+        //    //    echo_server.listen(9002);
 
-            //    // Start the server accept loop
-            //    echo_server.start_accept();
+        //    //    // Start the server accept loop
+        //    //    echo_server.start_accept();
 
-            //    // Start the ASIO io_service run loop
-            //    echo_server.run();
-            //}
-            //catch (websocketpp::exception const& e) {
-            //    std::cout << e.what() << std::endl;
-            //}
-            //catch (...) {
-            //    std::cout << "other exception" << std::endl;
-            //}
-        }
+        //    //    // Start the ASIO io_service run loop
+        //    //    echo_server.run();
+        //    //}
+        //    //catch (websocketpp::exception const& e) {
+        //    //    std::cout << e.what() << std::endl;
+        //    //}
+        //    //catch (...) {
+        //    //    std::cout << "other exception" << std::endl;
+        //    //}
+        //}
 
         //int maxid = -1;
+        //サーバーで利用
         void Connect(string uri)
         {
             int id = endpoint.connect(uri);
@@ -361,6 +363,8 @@ function<void(string)>_replayMessageFunc;
                 //if (id > maxid)maxid = id;
             }
         }
+
+        //クライアントで利用
         void ConnectAndRecieve(string uri) {
             try {
                 client c;
@@ -404,10 +408,8 @@ function<void(string)>_replayMessageFunc;
             //int id = 0;
             stringstream ss;
             ss << message;//idが2桁になると動かなくなるくそコードだが今回はこれで許して
-            //if (id < 0) {//すべての対象に送信
-            //    for(int i=0;i<=maxid;i++)endpoint.send(0,to_string(i)+ ss.str());
-            //}else endpoint.send(0,to_string(id)+ ss.str());
-            endpoint.send(0,to_string(id)+ ss.str());
+            endpoint.send(0, to_string(id) + ss.str());
+            //endpoint.send(0, ss.str());
             cout << message << endl;
         }
 

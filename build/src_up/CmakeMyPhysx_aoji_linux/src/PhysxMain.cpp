@@ -5,6 +5,7 @@ using namespace physx;
 #define PX_RELEASE(x)	if(x)	{ x->release(); x = NULL;	}
 #define PVD_USEDEBUG false
 #define USE_GPU false
+#define MAKE_OBJECTDATA false
 namespace PhysxMain {
 	
 	PxDefaultAllocator      gAllocator;
@@ -48,6 +49,8 @@ namespace PhysxMain {
         sceneDesc.cpuDispatcher = gDispatcher;
         sceneDesc.filterShader = PxDefaultSimulationFilterShader;
 #if USE_GPU //gpuを利用する場合
+
+        cout <<"use gpu"<< endl;
         PxCudaContextManagerDesc  cudaContextManagerDesc;
         gCudaContextManager = PxCreateCudaContextManager(*gFoundation, cudaContextManagerDesc, PxGetProfilerCallback());
         sceneDesc.cudaContextManager = gCudaContextManager;
@@ -106,14 +109,17 @@ namespace PhysxMain {
 
         stepcount1++;
         stepcount2++;
-        if (stepcount1 > 5) {
+        if (stepcount1 > 5) {//オブジェクトデータ反映
             stepcount1 = 0;
             _physxEnvirement->ReflectData2Envirement();
         }
-        if (stepcount2 > 10) {
+#if MAKE_OBJECTDATA
+        if (stepcount2 > 300) {//オブジェクトデータ作成
             stepcount2 = 0;
             _physxEnvirement->HashLogSet();
         }
+#endif
+
 	}
     void SetPhysxEnvirement(IPhysxEnvirement& env)
     {

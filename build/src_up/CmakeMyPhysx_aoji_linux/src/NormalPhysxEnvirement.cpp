@@ -121,6 +121,14 @@ void NormalPhysxEnvirement::keyPress(unsigned char key, const PxTransform& camer
 {
     switch (toupper(key))
     {
+    case 'R'://記録開始を送信
+    {
+        stringstream ss;
+        ss << "physx_input" << "," << "R" << "," << "0" << "," << "0";
+        string command = ss.str();
+        for (int i = 0; i < clientCount; i++)WebSocketppFarcade::Send(ss.str(), i); 
+    }
+        break;
     case ' ': {
         _physxObjectCreator->createDynamic(camera, PxBoxGeometry(2.0f, 2.0f, 2.0f),"",false, camera.rotate(PxVec3(-0.3f, 0, -1)) * _ballSpeed);
         break;

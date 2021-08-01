@@ -67,11 +67,11 @@ void NormalPhysxEnvirement_child::ReflectData2Envirement()
     if (_gScene == NULL)return;
 
 
-
+    if (reflectData == "")return;
     vector<string> objectDataList = MyExtention::Split(reflectData, '\n');
+    reflectData = "";
     for (int i = 0; i < objectDataList.size(); i++) {
         vector<string> labelList = MyExtention::Split(objectDataList[i], ';');
-
         //containerÇÃíäèo
         string container= MyExtention::Split(labelList[0], ':')[1];
         _containerCount = stoi(container);

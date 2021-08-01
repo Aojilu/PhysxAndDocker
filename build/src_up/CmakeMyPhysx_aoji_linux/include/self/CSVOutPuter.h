@@ -14,7 +14,7 @@ class CSVOutPuter
 	string _title;
 public:
 	CSVOutPuter(string title,int distance,int datasize);
-	void TryAddData(float data);
+	bool TryAddData(float data);
 	string GetOutPutText();
 	void OutPutCSV();
 };

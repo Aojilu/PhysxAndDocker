@@ -11,15 +11,16 @@ CSVOutPuter::CSVOutPuter(string title,int count,int datasize) {
 	_title = "_"+title;
 }
 
-void CSVOutPuter::TryAddData(float data) {
+bool CSVOutPuter::TryAddData(float data) {
 
-	if (_outData.size() >= _maxDataSize)return;
+	if (_outData.size() >= _maxDataSize)return false;
 	_nowCount++;
 	if (_nowCount == _setDataDistance) {
 		_nowCount = 0;
 		_outData.push_back(data);
 		if (_outData.size() == _maxDataSize)cout << "outputter-" << _title << " filled" << endl;
 	}
+	return true;
 }
 
 string CSVOutPuter::GetOutPutText() {

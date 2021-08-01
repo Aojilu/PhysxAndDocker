@@ -59,14 +59,15 @@ namespace PhysXFarcade {
 			_csvOutPutFactory.Update("simulate", sec);
 			_csvOutPutFactory.Update("objCount", _objCreator->GetObjeCount());
 			_csvOutPutFactory.Update("update", dt);//フレームレート
+			if (!_csvOutPutFactory.IsActive())EndCSVRecord();
 		}
 	}
 
 	void RecieveInput(unsigned char input, int x, int y)
 	{
 		if (input == 27) {
-			cout << "output file"<<endl;
-			EndCSVRecord();
+			//cout << "output file"<<endl;
+			//EndCSVRecord();
 			exit(0);
 		}
 		if (toupper(input) == 'R') {

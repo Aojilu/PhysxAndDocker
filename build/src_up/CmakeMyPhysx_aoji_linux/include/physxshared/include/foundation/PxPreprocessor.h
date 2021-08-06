@@ -27,15 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
-//‚ ‚Æ’Ð‚¯
-#ifndef NDEBUG
-#define NDEGUG =false
-#endif
-#ifndef _DEBUG
-#define _DEBUG =true
-#endif
-
-
 #ifndef PXFOUNDATION_PXPREPROCESSOR_H
 #define PXFOUNDATION_PXPREPROCESSOR_H
 
@@ -448,6 +439,8 @@ General defines
 #define PX_OFFSET_OF_RT(Class, Member)                                                                                 \
 	(reinterpret_cast<size_t>(&reinterpret_cast<Class*>(PX_OFFSETOF_BASE)->Member) - size_t(PX_OFFSETOF_BASE))
 
+
+#define NDEBUG
 // check that exactly one of NDEBUG and _DEBUG is defined
 #if !defined(NDEBUG) ^ defined(_DEBUG)
 #error Exactly one of NDEBUG and _DEBUG needs to be defined!

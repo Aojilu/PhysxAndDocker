@@ -20,6 +20,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/myPhysXSDK.dir/src/RenderRogic.cpp.o"
   "CMakeFiles/myPhysXSDK.dir/src/SimpleJudgePartial.cpp.o"
   "CMakeFiles/myPhysXSDK.dir/src/StaticObjectCreator.cpp.o"
+  "CMakeFiles/myPhysXSDK.dir/src/TimeStamp.cpp.o"
   "CMakeFiles/myPhysXSDK.dir/src/WebSocketppFarcade.cpp.o"
   "CMakeFiles/myPhysXSDK.dir/src/WebSocketpp_client.cpp.o"
   "CMakeFiles/myPhysXSDK.dir/src/WebSocketpp_server.cpp.o"

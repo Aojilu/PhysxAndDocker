@@ -75,7 +75,7 @@ void IPhysxEnvirement::InitPhysicsEnviourment()
 void IPhysxEnvirement::UpdateEnviroment(float dt)
 {
 }
-
+void IPhysxEnvirement::CreateFrameMessage(){}
 void IPhysxEnvirement::keyPress(unsigned char key, const PxTransform& camera)
 {
 }

@@ -6,6 +6,8 @@
 #include "WebSocketppFarcade.h"
 #include <sstream>
 #include "SimpleJudgePartial.h"
+#include "TimeStamp.h"
+#include "CSVOutPutFactory.h"
 using namespace physx;
 class NormalPhysxEnvirement :
     public IPhysxEnvirement
@@ -33,12 +35,20 @@ class NormalPhysxEnvirement :
 	vector<string> returnData;
 
 	bool _islocal;
+
+	TimeStamp _timeStamp;
+	CSVOutPutFactory _csvOutPutFactory;
+	//TimeStamp* test_stamp=NULL;
+	//string test_stamp_s;
+
+	long long beforetime;
 public:
 	NormalPhysxEnvirement(bool local):IPhysxEnvirement() {
 		_islocal = local;
 	}
 	 void InitPhysicsEnviourment() override;
 	  void UpdateEnviroment(float dt) override;
+	  void CreateFrameMessage() override;
 	  void keyPress(unsigned char key, const PxTransform& camera) override;
 	  void ReflectData2Envirement() override;
 	  //int JudgePartialSpaceNumber(PxVec3 pos)override;

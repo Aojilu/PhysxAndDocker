@@ -4,6 +4,8 @@ namespace OrderCommandRegister {
 	map<string, function<void()>> _commanList_void;
 	map<string, function<void(double)>> _commanList_double;
 	map<string, function<void(string)>> _commanList_string;
+
+	function<void(string)> _func_TimeStamp;
 	/*map<string, void(*)()> _commanList_void;
 	map<string, void(*)(double input)> _commanList_double;
 	map<string, void(*)(unsigned char input)> _commanList_char;*/
@@ -39,17 +41,32 @@ namespace OrderCommandRegister {
 	}
 
 
+	void CoalTimeStamp(string timeStamp) {
+		if(_func_TimeStamp)_func_TimeStamp(timeStamp);
+	}
+
 	//コマンド受け取り　区切り文字は','　区切られていたら2つ目の文字列をデータとして利用
 	void RecieveCommand(string command) {
 		vector<string> vec = MyExtention::Split(command, ',');
+		if (vec.size() <= 0)return;
+		vector<string> head = MyExtention::Split(vec[0], ':');
+		string command_h = head[0];
 		if (vec.size() == 1) {
+			CoalOrder(command_h);
+		}
+		else if (vec.size() >= 2) {
+			string data = command.substr(vec[0].size() + 1);
+			CoalOrder(command_h,data);
+		}
+		if(head.size()>=2)CoalTimeStamp(head[1]);
+		/*if (vec.size() == 1) {
 			CoalOrder(vec[0]);
 		}
 		else if (vec.size() >= 2) {
 			int size = vec[0].size()+1;
 			string subCommand = command.substr(size);
 			CoalOrder(vec[0],subCommand );
-		}
+		}*/
 	}
 
 	void AddCommand(string key, function<void()> command) {
@@ -60,6 +77,10 @@ namespace OrderCommandRegister {
 	}
 	void AddCommand(string key, function<void(double)> command) {
 		_commanList_double[key] = command;
+	}
+
+	void SetFuncTimeStamp(function<void(string)> command) {
+		_func_TimeStamp = command;
 	}
 	//void AddCommand(string key, void(*command)()) {
 	//	_commanList_void[key] = command;

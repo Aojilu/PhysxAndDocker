@@ -13,6 +13,7 @@ namespace PhysxMain
 	void InitPhysics(bool init);
 	void KeyPress(unsigned char key, const PxTransform& camera);
 	void StepPhysics(float dt);
+	void SendBackMessage();
 
 	void SetPhysxEnvirement(IPhysxEnvirement& env);
 	void SetObjectCreator(IPhysxObjectCreator& objc);

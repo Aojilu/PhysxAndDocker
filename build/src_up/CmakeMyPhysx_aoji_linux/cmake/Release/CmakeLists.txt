@@ -1,0 +1,67 @@
+cmake_minimum_required(VERSION 3.1)
+project(myPhysX CXX)
+add_executable(myPhysXSDK ./src/Camera.cpp
+                          ./src/CSVOutPuter.cpp
+                          ./src/CSVOutPutFactory.cpp
+                          ./src/DtCulcurator.cpp
+                          ./src/FrameAction.cpp
+                          ./src/phycsMain.cpp
+                          ./src/RenderActor.cpp
+                          ./src/RenderRogic.cpp
+                          ./src/MyPhysxController.cpp
+                          ./src/GLUTCommandController.cpp
+                          ./src/PhysXFarcade.cpp
+                          ./src/OrderCommandRegister.cpp
+                          ./src/main.cpp
+                          ./src/MyExtention.cpp
+                          ./src/WebSocketpp_client.cpp
+                          ./src/WebSocketpp_server.cpp
+                          ./src/WebSocketppFarcade.cpp
+
+                          ./src/IPhysxEnvirement.cpp
+                          ./src/IPhysxObjectCreator.cpp
+                          ./src/NormalPhysxEnvirement.cpp
+                          ./src/NormalPhysxEnvirement_child.cpp
+                          ./src/PhysxMain.cpp
+                          ./src/StaticObjectCreator.cpp
+
+                          ./src/ObjectDataHolder.cpp
+
+                          ./src/IJudgePartial.cpp
+                          ./src/SimpleJudgePartial.cpp
+			  ./src/TimeStamp.cpp
+						  )
+
+SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -lz")
+find_package(OpenGL REQUIRED COMPONENTS OpenGL)
+find_package(GLUT REQUIRED)
+target_include_directories(myPhysXSDK PRIVATE 
+	                      ./include/self 
+						    
+						  ./include/physxshared/include
+						  ./include/physx/include
+						  ./include/foudation/include
+						  ${GLUT_INCLUDE_DIRS})
+target_link_libraries(myPhysXSDK 
+
+				 ${PROJECT_SOURCE_DIR}/lib/Release/libPhysX_static_64.a
+                                 ${PROJECT_SOURCE_DIR}/lib/Release/libPhysXPvdSDK_static_64.a
+                                 ${PROJECT_SOURCE_DIR}/lib/Release/libPhysXCharacterKinematic_static_64.a
+                                 ${PROJECT_SOURCE_DIR}/lib/Release/libPhysXExtensions_static_64.a
+                                 ${PROJECT_SOURCE_DIR}/lib/Release/libPhysXCooking_static_64.a
+                                 ${PROJECT_SOURCE_DIR}/lib/Release/libPhysXCommon_static_64.a
+                                 ${PROJECT_SOURCE_DIR}/lib/Release/libPhysXFoundation_static_64.a
+				OpenGL::OpenGL ${GLUT_LIBRARY}
+ -lm -ldl -lGLU -lGL -lboost_system )
+add_dependencies(myPhysXSDK OpenGL::OpenGL)
+set(CompilerFlags
+CMAKE_CXX_FLAGS
+CMAKE_CXX_FLAGS_DEBUG
+CMAKE_CXX_FLAGS_RELEASE
+CMAKE_C_FLAGS
+CMAKE_C_FLAGS_DEBUG
+CMAKE_C_FLAGS_RELEASE
+)
+foreach(CompilerFlag ${CompilerFlags})
+string(REPLACE "/MD" "/MT" ${CompilerFlag} "${${CompilerFlag}}")
+endforeach()

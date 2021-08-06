@@ -1,11 +1,13 @@
 #include "PhysxMain.h"
 #include "ObjectDataHolder.h"
+#include "Flags.h"
 using namespace std;
 using namespace physx;
 #define PX_RELEASE(x)	if(x)	{ x->release(); x = NULL;	}
 #define PVD_USEDEBUG false
-#define USE_GPU false
-#define MAKE_OBJECTDATA false
+//#define USE_GPU false
+//#define MAKE_OBJECTDATA false
+
 namespace PhysxMain {
 	
 	PxDefaultAllocator      gAllocator;
@@ -99,20 +101,21 @@ namespace PhysxMain {
         _physxEnvirement->keyPress(key, camera);
 	}
 
-    int stepcount1 = 30;
-    int stepcount2 = 30;
+    //int stepcount1 = 30;
+    //int stepcount2 = 30;
 	void StepPhysics(float dt)
 	{
         _physxEnvirement->UpdateEnviroment(dt);
         gScene->simulate(dt);
         gScene->fetchResults(true);
 
-        stepcount1++;
-        stepcount2++;
-        if (stepcount1 > 5) {//オブジェクトデータ反映
-            stepcount1 = 0;
-            _physxEnvirement->ReflectData2Envirement();
-        }
+        //stepcount1++;
+        //stepcount2++;
+        //if (stepcount1 > 5) {//オブジェクトデータ反映
+        //    stepcount1 = 0;
+        //    _physxEnvirement->ReflectData2Envirement();
+        //}
+        //_physxEnvirement->ReflectData2Envirement();
 #if MAKE_OBJECTDATA
         if (stepcount2 > 300) {//オブジェクトデータ作成
             stepcount2 = 0;
@@ -121,6 +124,10 @@ namespace PhysxMain {
 #endif
 
 	}
+
+    void SendBackMessage() {
+        _physxEnvirement->CreateFrameMessage();
+    }
     void SetPhysxEnvirement(IPhysxEnvirement& env)
     {
         _physxEnvirement = &env;

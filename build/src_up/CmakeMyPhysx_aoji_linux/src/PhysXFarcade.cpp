@@ -42,13 +42,13 @@ namespace PhysXFarcade {
 
 		//cout << "idledt " << idledt << " sec" << "\n";
 		//フレーム処理
-
+		cout << "update"<<endl;
 		if (_physcsFrameActor.IsOverFrameRate()) {
 			float dt = _physcsFrameActor.GetProgressTime();
 			float stepDt = dt * _physicsTimeScale;
 			_physcsFrameActor.Refresh();
 
-
+			PhysxMain::SendBackMessage();//シミュレーションを実行するタイミングで返送要求を精製
 			auto start = chrono::system_clock::now();//処理時間計測開始
 			PhysxMain::StepPhysics(stepDt);
 			if (!_isActive_csvRecord)return;
@@ -73,6 +73,9 @@ namespace PhysXFarcade {
 		if (toupper(input) == 'R') {
 			cout << "startRecord"<<endl;
 			StartCSVRecord();
+		}
+		else if (toupper(input) == 'E') {
+			SetActive_rendering(!_isActive_rendering);
 		}
 
 		_sCamera->handleKey(input, x, y);
@@ -121,7 +124,7 @@ namespace PhysXFarcade {
 		//_isActive_update = flag;
 	}
 	void SetActive_rendering(bool flag) {
-		//_isActive_rendering = flag;
+		_isActive_rendering = flag;
 	}
 
 	void StartCSVRecord() {

@@ -61,21 +61,12 @@ namespace GLUTCommandController {
 
 
 	void StartDisplay(const char* name,double posx,double posy) {
-		cout << "test render\n";
+		cout << "test render"<<endl;
 		sCamera = new Camera(PxVec3(0.0f, 50.0f, 50.0f), PxVec3(0.0f, -0.1f, -0.7f));
 
 		RenderActor::setupDefaultWindow(name,posx,posy);
 		RenderActor::setupDefaultRenderState();
 
-		/*_outFactory.AddDataSet("objectCount", 10);
-		_outFactory.AddDataSet("simulateTime", 10);*/
-
-		/*idleCallback = _idleCallback;
-		motionCallback = _motionCallback;
-		mouseCallback = _mouseCallback;
-		inputCallback = _inputCallback;
-		renderCallback = _renderCallback;
-		sCamera = _sCamera;*/
 
 		glutIdleFunc(IdleCallback);
 		glutDisplayFunc(RenderCallback);

@@ -709,6 +709,33 @@ src/StaticObjectCreator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/myPhysXSDK.dir/build.make CMakeFiles/myPhysXSDK.dir/src/StaticObjectCreator.cpp.s
 .PHONY : src/StaticObjectCreator.cpp.s
 
+src/TimeStamp.o: src/TimeStamp.cpp.o
+
+.PHONY : src/TimeStamp.o
+
+# target to build an object file
+src/TimeStamp.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myPhysXSDK.dir/build.make CMakeFiles/myPhysXSDK.dir/src/TimeStamp.cpp.o
+.PHONY : src/TimeStamp.cpp.o
+
+src/TimeStamp.i: src/TimeStamp.cpp.i
+
+.PHONY : src/TimeStamp.i
+
+# target to preprocess a source file
+src/TimeStamp.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myPhysXSDK.dir/build.make CMakeFiles/myPhysXSDK.dir/src/TimeStamp.cpp.i
+.PHONY : src/TimeStamp.cpp.i
+
+src/TimeStamp.s: src/TimeStamp.cpp.s
+
+.PHONY : src/TimeStamp.s
+
+# target to generate assembly for a file
+src/TimeStamp.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/myPhysXSDK.dir/build.make CMakeFiles/myPhysXSDK.dir/src/TimeStamp.cpp.s
+.PHONY : src/TimeStamp.cpp.s
+
 src/WebSocketppFarcade.o: src/WebSocketppFarcade.cpp.o
 
 .PHONY : src/WebSocketppFarcade.o
@@ -916,6 +943,9 @@ help:
 	@echo "... src/StaticObjectCreator.o"
 	@echo "... src/StaticObjectCreator.i"
 	@echo "... src/StaticObjectCreator.s"
+	@echo "... src/TimeStamp.o"
+	@echo "... src/TimeStamp.i"
+	@echo "... src/TimeStamp.s"
 	@echo "... src/WebSocketppFarcade.o"
 	@echo "... src/WebSocketppFarcade.i"
 	@echo "... src/WebSocketppFarcade.s"

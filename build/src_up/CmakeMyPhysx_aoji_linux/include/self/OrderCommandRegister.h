@@ -17,8 +17,11 @@ namespace OrderCommandRegister
 //public:
 	void AddCommand(string key,function<void()>);
 	void AddCommand(string key,function<void(double)>);
-	void AddCommand(string key,function<void(string)>,char dummy);
+	void AddCommand(string key,function<void(string)>,char dummy); 
 	//コマンドを受け取る関数
 	void RecieveCommand(string command);
+
+	//タイムスタンプを処理する関数
+	void SetFuncTimeStamp(function<void(string)> command);
 };
 

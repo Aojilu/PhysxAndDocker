@@ -960,6 +960,7 @@ CMakeFiles/myPhysXSDK.dir/src/MyPhysxController.cpp.o
  ../include/self/RenderRogic.h
  ../include/self/SimpleJudgePartial.h
  ../include/self/StaticObjectCreator.h
+ ../include/self/TimeStamp.h
  ../include/self/WebSocketppFarcade.h
  /cpp-dev/src_up/CmakeMyPhysx_aoji_linux/src/MyPhysxController.cpp
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o
@@ -1139,6 +1140,9 @@ CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o
  ../include/physxshared/include/foundation/PxVec4.h
  ../include/physxshared/include/foundation/unix/PxUnixIntrinsics.h
  ../include/physxshared/include/foundation/windows/PxWindowsIntrinsics.h
+ ../include/self/CSVOutPutFactory.h
+ ../include/self/CSVOutPuter.h
+ ../include/self/Flags.h
  ../include/self/IJudgePartial.h
  ../include/self/IPhysxEnvirement.h
  ../include/self/IPhysxObjectCreator.h
@@ -1146,6 +1150,7 @@ CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o
  ../include/self/NormalPhysxEnvirement.h
  ../include/self/ObjectDataHolder.h
  ../include/self/SimpleJudgePartial.h
+ ../include/self/TimeStamp.h
  ../include/self/WebSocketppFarcade.h
  /cpp-dev/src_up/CmakeMyPhysx_aoji_linux/src/NormalPhysxEnvirement.cpp
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o
@@ -1325,12 +1330,16 @@ CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o
  ../include/physxshared/include/foundation/PxVec4.h
  ../include/physxshared/include/foundation/unix/PxUnixIntrinsics.h
  ../include/physxshared/include/foundation/windows/PxWindowsIntrinsics.h
+ ../include/self/CSVOutPutFactory.h
+ ../include/self/CSVOutPuter.h
  ../include/self/IJudgePartial.h
  ../include/self/IPhysxEnvirement.h
  ../include/self/IPhysxObjectCreator.h
  ../include/self/MyExtention.h
  ../include/self/NormalPhysxEnvirement_child.h
  ../include/self/ObjectDataHolder.h
+ ../include/self/OrderCommandRegister.h
+ ../include/self/TimeStamp.h
  ../include/self/WebSocketppFarcade.h
  /cpp-dev/src_up/CmakeMyPhysx_aoji_linux/src/NormalPhysxEnvirement_child.cpp
 CMakeFiles/myPhysXSDK.dir/src/ObjectDataHolder.cpp.o
@@ -1886,6 +1895,7 @@ CMakeFiles/myPhysXSDK.dir/src/PhysxMain.cpp.o
  ../include/physxshared/include/foundation/PxVec4.h
  ../include/physxshared/include/foundation/unix/PxUnixIntrinsics.h
  ../include/physxshared/include/foundation/windows/PxWindowsIntrinsics.h
+ ../include/self/Flags.h
  ../include/self/IJudgePartial.h
  ../include/self/IPhysxEnvirement.h
  ../include/self/IPhysxObjectCreator.h
@@ -2615,7 +2625,11 @@ CMakeFiles/myPhysXSDK.dir/src/StaticObjectCreator.cpp.o
  ../include/self/ObjectDataHolder.h
  ../include/self/StaticObjectCreator.h
  /cpp-dev/src_up/CmakeMyPhysx_aoji_linux/src/StaticObjectCreator.cpp
+CMakeFiles/myPhysXSDK.dir/src/TimeStamp.cpp.o
+ ../include/self/TimeStamp.h
+ /cpp-dev/src_up/CmakeMyPhysx_aoji_linux/src/TimeStamp.cpp
 CMakeFiles/myPhysXSDK.dir/src/WebSocketppFarcade.cpp.o
+ ../include/self/TimeStamp.h
  ../include/self/WebSocketppFarcade.h
  /cpp-dev/src_up/CmakeMyPhysx_aoji_linux/src/WebSocketppFarcade.cpp
 CMakeFiles/myPhysXSDK.dir/src/WebSocketpp_client.cpp.o
@@ -2816,6 +2830,7 @@ CMakeFiles/myPhysXSDK.dir/src/main.cpp.o
  ../include/self/PhysxMain.h
  ../include/self/RenderActor.h
  ../include/self/RenderRogic.h
+ ../include/self/TimeStamp.h
  ../include/self/WebSocketppFarcade.h
  /cpp-dev/src_up/CmakeMyPhysx_aoji_linux/src/main.cpp
 CMakeFiles/myPhysXSDK.dir/src/phycsMain.cpp.o

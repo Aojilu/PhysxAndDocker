@@ -29,6 +29,7 @@ add_executable(myPhysXSDK ./src/Camera.cpp
 
                           ./src/IJudgePartial.cpp
                           ./src/SimpleJudgePartial.cpp
+			  ./src/TimeStamp.cpp
 						  )
 
 SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -lz")
@@ -42,14 +43,13 @@ target_include_directories(myPhysXSDK PRIVATE
 						  ./include/foudation/include
 						  ${GLUT_INCLUDE_DIRS})
 target_link_libraries(myPhysXSDK 
-
-				 ${PROJECT_SOURCE_DIR}/lib/Debug/libPhysX_static_64.a
-                                 ${PROJECT_SOURCE_DIR}/lib/Debug/libPhysXPvdSDK_static_64.a
-                                 ${PROJECT_SOURCE_DIR}/lib/Debug/libPhysXCharacterKinematic_static_64.a
-                                 ${PROJECT_SOURCE_DIR}/lib/Debug/libPhysXExtensions_static_64.a
-                                 ${PROJECT_SOURCE_DIR}/lib/Debug/libPhysXCooking_static_64.a
-                                 ${PROJECT_SOURCE_DIR}/lib/Debug/libPhysXCommon_static_64.a
-                                 ${PROJECT_SOURCE_DIR}/lib/Debug/libPhysXFoundation_static_64.a
+                                 ${PROJECT_SOURCE_DIR}/lib/Release/libPhysXExtensions_static_64.a
+				 ${PROJECT_SOURCE_DIR}/lib/Release/libPhysX_static_64.a
+                                 ${PROJECT_SOURCE_DIR}/lib/Release/libPhysXPvdSDK_static_64.a
+                                 ${PROJECT_SOURCE_DIR}/lib/Release/libPhysXCharacterKinematic_static_64.a
+                                 ${PROJECT_SOURCE_DIR}/lib/Release/libPhysXCooking_static_64.a
+                                 ${PROJECT_SOURCE_DIR}/lib/Release/libPhysXCommon_static_64.a
+                                 ${PROJECT_SOURCE_DIR}/lib/Release/libPhysXFoundation_static_64.a
 				OpenGL::OpenGL ${GLUT_LIBRARY}
  -lm -ldl -lGLU -lGL -lboost_system )
 add_dependencies(myPhysXSDK OpenGL::OpenGL)

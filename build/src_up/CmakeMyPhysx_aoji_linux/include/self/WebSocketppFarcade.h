@@ -11,17 +11,18 @@
 #include <websocketpp/common/thread.hpp>
 #include <websocketpp/common/memory.hpp>
 #include<functional>
+#include "TimeStamp.h"
 using namespace std;
 namespace WebSocketppFarcade
 {
-	void Listen();
+	//void Listen();
 	void Connect(string uri);
 	void ConnectAndRecieve(string uri);
-	void Send(string message,int id=-1);
+	void Send(string command,string data,int id=-1);
 	void Close();
 
 	void SetRecieveMessage(function<void(string)> func); 
-	void SetBackMessage(function<string()>func);
+	void SetBackMessage(function<string(string)>func);
 	void SetReplayMessage(function<void(string)>func);
 
 }

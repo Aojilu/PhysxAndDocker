@@ -46,7 +46,7 @@
 typedef websocketpp::client<websocketpp::config::asio_client> client;
 #pragma region echoclient
 function<void(string)> _recieveMessageFunc;
-function<string()> _backMessageFunc;//データを送り返すときの処理
+function<string(string)> _backMessageFunc;//データを送り返すときの処理
 
 
     //typedef websocketpp::client<websocketpp::config::asio_client> echoclient;
@@ -68,14 +68,24 @@ function<string()> _backMessageFunc;//データを送り返すときの処理
 
         string command = msg->get_payload();
         websocketpp::lib::error_code ec;
+
+        string msg_pay = msg->get_payload();
         //送り返し
-        if (msg->get_payload() == "back") {
+        if (msg_pay.substr(0,4) == "back") {
             if (!_backMessageFunc)return;
             //c->send(hdl, "re" + _backMessageFunc(), msg->get_opcode(), ec);
-            c->send(hdl, _backMessageFunc(), msg->get_opcode(), ec);
-            if (ec) {
+
+            //c->send(hdl, _backMessageFunc(msg_pay.substr(5,msg_pay.size()-6)), msg->get_opcode(), ec);
+            //メッセージの渋滞対策で非同期処理にしたい
+            std::thread th([=]() mutable {
+                string message = _backMessageFunc(msg_pay.substr(5, msg_pay.size() - 6));
+                    c->send(hdl, message, msg->get_opcode(), ec);
+                });
+            th.detach();
+
+            /*if (ec) {
                 std::cout << "Echo failed because: " << ec.message() << std::endl;
-            }
+            }*/
         }
         else {
             if (_recieveMessageFunc)_recieveMessageFunc(command);
@@ -316,7 +326,7 @@ function<string()> _backMessageFunc;//データを送り返すときの処理
 
 
         websocket_endpoint endpoint;
-
+        TimeStamp _timeStamp;
 
         //void Listen()
         //{
@@ -400,17 +410,12 @@ function<string()> _backMessageFunc;//データを送り返すときの処理
             }
         }
 
-        void Send(string message,int id)
+        void Send(string command,string data,int id)
         {
-            /*int id = 0;
-            endpoint.send(id, message);
-            cout << message << endl;*/
-            //int id = 0;
             stringstream ss;
-            ss << message;//idが2桁になると動かなくなるくそコードだが今回はこれで許して
+            ss << command<<":"<<_timeStamp.GetTimeStamp()<<","<<data;//idが2桁になると動かなくなるくそコードだが今回はこれで許して
             endpoint.send(0, to_string(id) + ss.str());
-            //endpoint.send(0, ss.str());
-            cout << message << endl;
+            cout << ss.str() << endl;
         }
 
         void Close()
@@ -429,7 +434,7 @@ function<string()> _backMessageFunc;//データを送り返すときの処理
             _replayMessageFunc = func;
         }
 
-        void SetBackMessage(function<string()>func) {
+        void SetBackMessage(function<string(string)>func) {
             _backMessageFunc = func;
         }
     }

@@ -29,6 +29,7 @@ public:
 	IPhysxEnvirement(){}
 	virtual void InitPhysicsEnviourment();
 	virtual void UpdateEnviroment(float dt);
+	virtual void CreateFrameMessage();//フレームの返送要求を送信
 	virtual void keyPress(unsigned char key, const PxTransform& camera);
 
 	void SetScene(PxScene& gScene) {
@@ -54,5 +55,6 @@ public:
 
 	//ログを前もって生成
 	virtual void HashLogSet() {}
+
 };
 

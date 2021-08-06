@@ -57,7 +57,8 @@ sometimes they are stored in a byte.
 The constant PX_PHYSICS_VERSION is used when creating certain PhysX module objects.
 This is to ensure that the application is using the same header version as the library was built with.
 */
-#define PX_PHYSICS_VERSION ((PX_PHYSICS_VERSION_MAJOR<<24) + (PX_PHYSICS_VERSION_MINOR<<16) + (PX_PHYSICS_VERSION_BUGFIX<<8) + 0)
+//#define PX_PHYSICS_VERSION ((PX_PHYSICS_VERSION_MAJOR<<24) + (PX_PHYSICS_VERSION_MINOR<<16) + (PX_PHYSICS_VERSION_BUGFIX<<8) + 0)
+#define PX_PHYSICS_VERSION 0x04010200
 
 
 #endif // PX_PHYSICS_VERSION_NUMBER_H

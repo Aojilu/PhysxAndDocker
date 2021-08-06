@@ -15,17 +15,40 @@ void NormalPhysxEnvirement_child::ChengeBallSpeed(float dv) {
 
 void NormalPhysxEnvirement_child::InitPhysicsEnviourment()
 {
-    WebSocketppFarcade::SetBackMessage([&] {
-        //‘‚«Š·‚¦’†‚Íupdate~‚ß‚È‚¢‚Æ‚¾‚ß‚È‚Ì‚Å~‚ß‚Ä‚é
-        string result = _hashLog;
+
+    WebSocketppFarcade::SetBackMessage([&](string timeStamp) {
+        //‘‚«Š·‚¦’†‚Íupdate~‚ß‚È‚¢‚Æ‚¾‚ß‚È‚Ì‚Å
+
+        //‹L˜^ˆ—@begin
+        //“’…ŠÔŠu‚ğ‹L˜^
+        /*auto now = std::chrono::system_clock::now();
+        auto dur = now.time_since_epoch();
+        auto time = std::chrono::duration_cast<std::chrono::microseconds>(dur).count();
+        if (time > 0) {
+            if (beforeTime == 0)beforeTime = time;
+            else {
+                double msec = (time - beforeTime) / 1000000.0f;
+                _csvOutPutFactory.Update("recieveData", msec);
+                beforeTime = time;
+            }
+        }*/
+        //‹L˜^ˆ— end
+
+        HashLogSet();
+        stringstream ss;
+        ss << timeStamp << "\n" << _hashLog;
+        string result = ss.str();
         return result;
         });
     ReflectData2Envirement();
     HashLogSet();
+
+    _csvOutPutFactory.AddDataSet("recieveData", 1, 100);
 }
 
 void NormalPhysxEnvirement_child::UpdateEnviroment(float dt)
 {
+    ReflectData2Envirement();
     if (!wallmoveFlag)return;
     if (moveWall == NULL) {
         auto temp = _physxObjectCreator->FindObject("moveWall", 0);
@@ -39,8 +62,12 @@ void NormalPhysxEnvirement_child::UpdateEnviroment(float dt)
     sign = (isUp) ? -1.0f : 1.0f;
     PxTransform next_position(moveWall->getGlobalPose().p - PxVec3(0.0f, 0.0f, dt * wallSpeed * sign));//ˆÊ’u‚Ì‚İ‚ğw’è‚µ‚Ä‚¢‚é‚ªAŠp“x‚àw’è‚Å‚«‚é‚æ
     moveWall->setKinematicTarget(next_position);
-}
 
+}
+void NormalPhysxEnvirement_child::SetReflectData(string data) {
+    reflectData = data;
+    //ReflectData2Envirement();
+}
 
 void NormalPhysxEnvirement_child::keyPress(unsigned char key, const PxTransform& camera)
 {
@@ -58,6 +85,9 @@ void NormalPhysxEnvirement_child::keyPress(unsigned char key, const PxTransform&
         break;
     case 'X':
         wallmoveFlag = !wallmoveFlag;
+        break;
+    case 'T':
+        //_csvOutPutFactory.OutPutCSV();
         break;
     }
 }

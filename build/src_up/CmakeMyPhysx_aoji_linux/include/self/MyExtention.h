@@ -5,6 +5,6 @@
 class MyExtention
 {
 public:
-	 static std::vector<std::string> Split(std::string str, char del);
+	 static std::vector<std::string> Split(const std::string& str, char del);
 };
 

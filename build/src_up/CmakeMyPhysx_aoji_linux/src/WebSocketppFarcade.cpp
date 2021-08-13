@@ -1,49 +1,7 @@
 #include "WebSocketppFarcade.h"
-#pragma region server
-
-
-    //typedef websocketpp::server<websocketpp::config::asio> server;
-
-    //using websocketpp::lib::placeholders::_1;
-    //using websocketpp::lib::placeholders::_2;
-    //using websocketpp::lib::bind;
-
-    //// pull out the type of messages sent by our config
-    //typedef server::message_ptr message_ptr;
-
-    //// Define a callback to handle incoming messages
-    //void on_message(server* s, websocketpp::connection_hdl hdl, message_ptr msg) {
-    //    std::cout << "on_message called with hdl: " << hdl.lock().get()
-    //        << " and message: " << msg->get_payload()
-    //        << std::endl;
-
-    //    // check for a special command to instruct the server to stop listening so
-    //    // it can be cleanly exited.
-    //    if (msg->get_payload() == "stop-listening") {
-    //        s->stop_listening();
-    //        return;
-    //    }
-
-    //    try {
-    //        s->send(hdl, msg->get_payload(), msg->get_opcode());
-
-    //    }
-    //    catch (websocketpp::exception const& e) {
-    //        std::cout << "Echo failed because: "
-    //            << "(" << e.what() << ")" << std::endl;
-    //    }
-    //    try {
-    //        string command = msg->get_payload();
-    //        if(_recieveMessage)_recieveMessage(command);
-    //    }
-    //    catch (exception e) {
-    //        cout << "error=" << e.what() << endl;
-    //    }
-    //}
-
-#pragma endregion
 
 typedef websocketpp::client<websocketpp::config::asio_client> client;
+typedef websocketpp::server<websocketpp::config::asio> server;
 #pragma region echoclient
 function<void(string)> _recieveMessageFunc;
 function<string(string)> _backMessageFunc;//データを送り返すときの処理
@@ -61,9 +19,9 @@ function<string(string)> _backMessageFunc;//データを送り返すときの処理
     // This message handler will be invoked once for each incoming message. It
     // prints the message and then sends a copy of the message back to the server.
     void on_message(client* c, websocketpp::connection_hdl hdl, message_ptr msg) {
-        std::cout << "on_message called with hdl: " << hdl.lock().get()
-            << " and message: " << msg->get_payload()
-            << std::endl;
+        //std::cout << "on_message called with hdl: " << hdl.lock().get()
+        //    << " and message: " << msg->get_payload()
+        //    << std::endl;
 
 
         string command = msg->get_payload();
@@ -75,13 +33,13 @@ function<string(string)> _backMessageFunc;//データを送り返すときの処理
             if (!_backMessageFunc)return;
             //c->send(hdl, "re" + _backMessageFunc(), msg->get_opcode(), ec);
 
-            //c->send(hdl, _backMessageFunc(msg_pay.substr(5,msg_pay.size()-6)), msg->get_opcode(), ec);
+            c->send(hdl, _backMessageFunc(msg_pay.substr(5,msg_pay.size()-6)), msg->get_opcode(), ec);
             //メッセージの渋滞対策で非同期処理にしたい
-            std::thread th([=]() mutable {
-                string message = _backMessageFunc(msg_pay.substr(5, msg_pay.size() - 6));
-                    c->send(hdl, message, msg->get_opcode(), ec);
-                });
-            th.detach();
+            //std::thread th([&]() mutable {
+            //    string message = _backMessageFunc(msg_pay.substr(5, msg_pay.size() - 6));
+            //        c->send(hdl, message, msg->get_opcode(), ec);
+            //    });
+            //th.join();
 
             /*if (ec) {
                 std::cout << "Echo failed because: " << ec.message() << std::endl;
@@ -135,13 +93,27 @@ function<string(string)> _backMessageFunc;//データを送り返すときの処理
         }
 
         void on_message(websocketpp::connection_hdl, client::message_ptr msg) {
-            if (msg->get_opcode() == websocketpp::frame::opcode::text) {//この条件よくわからない
-                m_messages.push_back("<< " + msg->get_payload());
-                if (_replayMessageFunc)_replayMessageFunc(msg->get_payload());
+
+            string command = msg->get_payload();
+            websocketpp::lib::error_code ec;
+
+            string msg_pay = msg->get_payload();
+            if (msg_pay.substr(0, 4) == "back") {
+                if (!_backMessageFunc)return;
+                _backMessageFunc(msg_pay.substr(5, msg_pay.size() - 6));
+                
             }
             else {
-                m_messages.push_back("<< " + websocketpp::utility::to_hex(msg->get_payload()));
+                if (_recieveMessageFunc)_recieveMessageFunc(command);
             }
+            
+            //if (msg->get_opcode() == websocketpp::frame::opcode::text) {//この条件よくわからない
+            //    m_messages.push_back("<< " + msg->get_payload());
+            //    if (_replayMessageFunc)_replayMessageFunc(msg->get_payload());
+            //}
+            //else {
+            //    m_messages.push_back("<< " + websocketpp::utility::to_hex(msg->get_payload()));
+            //}
         }
 
         websocketpp::connection_hdl get_hdl() const {
@@ -321,13 +293,85 @@ function<string(string)> _backMessageFunc;//データを送り返すときの処理
 
 #pragma endregion
 
+#pragma region broadcast_server
+
+    class broadcast_server {
+    public:
+        broadcast_server() {
+            m_server.init_asio();
+
+            m_server.set_open_handler(bind(&broadcast_server::on_open, this, ::_1));
+            m_server.set_close_handler(bind(&broadcast_server::on_close, this, ::_1));
+            m_server.set_message_handler(bind(&broadcast_server::on_message, this, ::_1, ::_2));
+
+        }
+
+        void on_open(websocketpp::connection_hdl hdl) {
+
+            m_connections_child.insert(hdl);
+
+        }
+
+        void on_close(websocketpp::connection_hdl hdl) {
+            bool isParent = m_connections_parent.find(hdl) != m_connections_parent.end();
+            if (isParent) {
+                m_connections_parent.erase(hdl);
+                cout << "erase host" << endl;
+            }
+            else {
+                m_connections_child.erase(hdl);
+            }
+        }
+
+        void on_end_accept(error_code lib_ec, error_code trans_ec) {
+            std::cout << "Accept loop ended "
+                << lib_ec.message() << "/" << trans_ec.message() << std::endl;
+        }
+
+        //主にここをいじる
+        void on_message(websocketpp::connection_hdl hdl, server::message_ptr msg) {
+            if (msg->get_opcode() == websocketpp::frame::opcode::text) {//この条件よくわからない
+                if (_replayMessageFunc) {
+                    _replayMessageFunc(msg->get_payload());
+                }
+            }
+        }
+
+        void run(uint16_t port) {
+            m_server.listen(port);
+            //m_server.start_accept(bind(&broadcast_server::on_end_accept, this, ::_1, ::_2));
+            m_server.start_accept();
+            m_server.run();
+        }
+
+        void send(string msg,int num) {
+            //m_endpoint.send(metadata_it->second->get_hdl(), message, websocketpp::frame::opcode::text, ec);
+           
+            int count = 0;
+            for (auto it : m_connections_child) {
+                if(count==num)m_server.send(it, msg, websocketpp::frame::opcode::text);
+                count++;
+            }
+        }
+    private:
+        typedef std::set<websocketpp::connection_hdl, std::owner_less<websocketpp::connection_hdl>> con_list;
+
+        server m_server;
+        con_list m_connections_child;
+        con_list m_connections_parent;
+
+    };
+#pragma endregion
 
     namespace WebSocketppFarcade {
 
 
+        broadcast_server server;
         websocket_endpoint endpoint;
+        client client_c;
         TimeStamp _timeStamp;
 
+        bool isServer = true;
         //void Listen()
         //{
 
@@ -364,9 +408,16 @@ function<string(string)> _backMessageFunc;//データを送り返すときの処理
         //}
 
         //int maxid = -1;
+        
+        void Listen() {
+            isServer = true;
+            server.run(9002);
+        }
+
         //サーバーで利用
         void Connect(string uri)
         {
+            isServer = false;
             int id = endpoint.connect(uri);
             if (id != -1) {
                 std::cout << "> Created connection with id " << id << std::endl;
@@ -376,46 +427,76 @@ function<string(string)> _backMessageFunc;//データを送り返すときの処理
 
         //クライアントで利用
         void ConnectAndRecieve(string uri) {
-            try {
-                client c;
-                // Set logging to be pretty verbose (everything except message payloads)
-                c.set_access_channels(websocketpp::log::alevel::all);
-                c.clear_access_channels(websocketpp::log::alevel::frame_payload);
-
-                // Initialize ASIO
-                c.init_asio();
-
-                // Register our message handler
-                c.set_message_handler(bind(&on_message, &c, ::_1, ::_2));
-
-                websocketpp::lib::error_code ec;
-                client::connection_ptr con = c.get_connection(uri, ec);
-                if (ec) {
-                    std::cout << "could not create connection because: " << ec.message() << std::endl;
-                    return ;
-                }
-
-                // Note that connect here only requests a connection. No network messages are
-                // exchanged until the event loop starts running in the next line.
-                c.connect(con);
-                // Start the ASIO io_service run loop
-                // this will cause a single connection to be made to the server. c.run()
-                // will exit when this connection is closed.
-                c.run();
-                
-                
+            isServer = false;
+            int id = endpoint.connect(uri);
+            endpoint.m_endpoint.run();
+            if (id != -1) {
+                std::cout << "> Created connection with id " << id << std::endl;
+                //if (id > maxid)maxid = id;
             }
-            catch (websocketpp::exception const& e) {
-                std::cout << e.what() << std::endl;
-            }
+            //try {
+            //    //client c;
+            //    // Set logging to be pretty verbose (everything except message payloads)
+            //    client_c.set_access_channels(websocketpp::log::alevel::all);
+            //    client_c.clear_access_channels(websocketpp::log::alevel::frame_payload);
+
+            //    // Initialize ASIO
+            //    client_c.init_asio();
+
+            //    // Register our message handler
+            //    client_c.set_message_handler(bind(&on_message, &client_c, ::_1, ::_2));
+
+            //    websocketpp::lib::error_code ec;
+            //    client::connection_ptr con = client_c.get_connection(uri, ec);
+            //    if (ec) {
+            //        std::cout << "could not create connection because: " << ec.message() << std::endl;
+            //        return ;
+            //    }
+
+            //    // Note that connect here only requests a connection. No network messages are
+            //    // exchanged until the event loop starts running in the next line.
+            //    client_c.connect(con);
+            //    // Start the ASIO io_service run loop
+            //    // this will cause a single connection to be made to the server. c.run()
+            //    // will exit when this connection is closed.
+            //    client_c.run();
+            //    
+            //    
+            //}
+            //catch (websocketpp::exception const& e) {
+            //    std::cout << e.what() << std::endl;
+            //}
         }
 
-        void Send(string command,string data,int id)
+        void Send(string command, string data, int id)
+        {
+
+            stringstream ss;
+            if (isServer) {
+                ss << command << ":" << _timeStamp.GetTimeStamp() << "," << data;//idが2桁になると動かなくなるくそコードだが今回はこれで許して
+
+                server.send(ss.str(), id);
+            }
+            else {
+                ss  << _timeStamp.GetTimeStamp() << "\n" << data;//idが2桁になると動かなくなるくそコードだが今回はこれで許して
+
+                endpoint.send(0,ss.str());
+            }
+            //cout << ss.str() << endl;
+        }
+        void Send(string command, string data,string timestamp, int id)
         {
             stringstream ss;
-            ss << command<<":"<<_timeStamp.GetTimeStamp()<<","<<data;//idが2桁になると動かなくなるくそコードだが今回はこれで許して
-            endpoint.send(0, to_string(id) + ss.str());
-            cout << ss.str() << endl;
+            if (isServer) {
+                ss << command << ":" <<timestamp << "," << data;//idが2桁になると動かなくなるくそコードだが今回はこれで許して
+
+                server.send(ss.str(), id);
+            }
+            else {
+                ss << timestamp << "\n" << data;//idが2桁になると動かなくなるくそコードだが今回はこれで許して
+
+                endpoint.send(0, ss.str());
+            }
         }
 
         void Close()

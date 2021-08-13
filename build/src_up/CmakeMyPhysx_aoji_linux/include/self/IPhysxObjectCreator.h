@@ -18,6 +18,7 @@ protected:
 	PxPhysics* _gPhysics = NULL;
 	PxMaterial* _gMaterial;
 
+
 	int _containerCount = 0;
 	void AddObjectData(PxRigidActor* obj,int index,bool isDynamic,bool isKinematic, const PxGeometry& geometry,string key="") {
 
@@ -34,7 +35,8 @@ protected:
 		}
 
 		//本当はどこのコンテナ所属かも変更しやすくしたい
-		_dataHolderList[index]->_datalist.insert(std::make_pair(key, new ObjectData_toHolder(*obj,isDynamic,isKinematic,ObjectData_toHolder::CreateGeometyryInfo(geometry))));
+		_dataHolderList[index]->_datalist.insert(std::make_pair(key, new ObjectData_toHolder(*obj, key, isDynamic, isKinematic, ObjectData_toHolder::CreateGeometyryInfo(geometry))));
+		_dataHolderList[index]->_datalist_vec.push_back(new ObjectData_toHolder(*obj, key, isDynamic, isKinematic, ObjectData_toHolder::CreateGeometyryInfo(geometry)));
 	}
 
 	void AddContainer() {
@@ -47,6 +49,7 @@ protected:
 public:
 	virtual PxRigidDynamic* createDynamic(const PxTransform& t, const PxGeometry& geometry,string key="",bool isKienmatic=false, const PxVec3& velocity = PxVec3(0));
 	virtual PxRigidStatic* createStatic(const PxTransform& t, const PxGeometry& geometry,string key="");
+	
 	void SetScene(PxScene& scene) {
 		_gScene = &scene;
 	}
@@ -67,11 +70,19 @@ public:
 
 	vector<ObjectDataHolder*> _dataHolderList;
 
-	ObjectData_toHolder* FindObject(string key,int index) {
+	 ObjectData_toHolder* FindObject(string key, int index) {
 		if (index >= _dataHolderList.size()) { cout << "IPhysxObjectCreator::FindObject exception:indexover"; return NULL; }
-		if (_dataHolderList[index]->_datalist.count(key) == 0)return NULL;
-		return _dataHolderList[index]->_datalist.at(key);
+		//if (_dataHolderList[index]->_datalist.count(key) == 0)return NULL;
+		//return _dataHolderList[index]->_datalist.at(key);
+		return _dataHolderList[index]->_datalist[key];
+
 	}
+
+	 bool IsContain(string key, int index) {
+		 if (index >= _dataHolderList.size()) { cout << "IPhysxObjectCreator::FindObject exception:indexover"; return false; }
+
+		 return _dataHolderList[index]->_datalist.count(key) != 0;
+	 }
 
 	 int GetObjeCount() {
 		return _objCount;

@@ -12,6 +12,8 @@ public:
 
 	//タイムスタンプからの経過時間
 	long long GetGoneTime(string timeStamp);
+
+	static long long GetFromEpockTime();
 private:
 
 };

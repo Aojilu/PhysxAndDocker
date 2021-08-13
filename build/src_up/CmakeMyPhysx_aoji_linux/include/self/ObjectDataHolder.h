@@ -15,7 +15,9 @@ public:
 	bool _isDynamic;
 	bool _isKinematic;
 	string _geometoryInfo = "";
-	ObjectData_toHolder(PxRigidActor& objData, bool isDynamic, bool isKinematic, string geometoryInfo) {
+	string _id="";
+	ObjectData_toHolder(PxRigidActor& objData,string id, bool isDynamic, bool isKinematic, string geometoryInfo) {
+		_id = id;
 		_objectData = &objData;
 		_isDynamic = isDynamic;
 		_isKinematic = isKinematic;
@@ -68,5 +70,6 @@ class ObjectDataHolder
 public:
 	//map<string, PxRigidActor*> _datalist;
 	unordered_map<string, ObjectData_toHolder*> _datalist;
+	vector<ObjectData_toHolder*>_datalist_vec;
 	int _containerNumber = -1;
 };

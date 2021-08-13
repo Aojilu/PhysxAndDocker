@@ -2,33 +2,69 @@
 
 using namespace std;
 
-string IPhysxEnvirement::CreateLog(int serch,int send) {
-
+string IPhysxEnvirement::CreateLog(int serch,int send, bool isLight) {
 	stringstream ss;
 	auto dataHolderList = _physxObjectCreator->_dataHolderList;
 	if (serch >= dataHolderList.size())return "";
-	auto dataHolder = dataHolderList[serch];
-	for (auto itr = dataHolder->_datalist.begin(); itr != dataHolder->_datalist.end(); ++itr) {
-		//�����Ńf�[�^�̏��������������肵�Ă��邪�A�{���͂����ƌ��߂���
-		//\n�@�f�[�^�u���b�N�̐؂�ځ@;�@�f�[�^�̂̐؂��
-		auto obj = itr->second;
-		auto tr = obj->_objectData->getGlobalPose().p;
-		auto qr = obj->_objectData->getGlobalPose().q;
-		ss << "c:" << send << ";";//�R���e�i�ԍ�
-		ss << "l:" << itr->first << ";";//���x��
-		ss << "d:" << obj->_isDynamic << ";";//dynamic���ǂ���
-		ss << "k:" << obj->_isKinematic << ";";//kinematic���ǂ���
-		ss << "p:" <<fixed<<setprecision(3)<< tr.x << "," << tr.y << "," << tr.z << ";";//position ������3���܂łɂ��Ă���
-		ss << "q:" << qr.x << "," << qr.y << "," << qr.z << "," << qr.w << ";";//quartanion
-		ss << "g:" << obj->_geometoryInfo << ";" << "\n";//geometory
-	}
+	auto dataHolder = dataHolderList[serch]->_datalist_vec;
 
+	//string send_s = to_string(send);
+	//string result = "";
+	//result.reserve(1000000);
+
+	for (const auto& it : dataHolder) {
+		//PxTransform pose = it->_objectData->getGlobalPose();
+		//PxVec3 tr = pose.p;
+		//PxQuat qr = pose.q;		
+		m_tr_parent = it->_objectData->getGlobalPose();
+		m_pos_parent = m_tr_parent.p;
+		m_qr_parent = m_tr_parent.q;
+
+		//stringstream ss_temp;
+		//ss_temp << "p:" << fixed << setprecision(3) << tr.x << "," << tr.y << "," << tr.z << ";"
+		//	    << "q:" << qr.x << "," << qr.y << "," << qr.z << "," << qr.w << ";";
+		//result.append("c:").append(send_s).append(";");
+		//result.append("l:").append(it->_id).append(";");
+		//result.append("d:").append(to_string( it->_isDynamic)).append(";");
+		//result.append("k:").append(to_string(it->_isKinematic)).append(";");
+		//result.append(ss_temp.str());
+		//result.append("g:").append(it->_geometoryInfo).append(";\n");
+
+		if (isLight) {
+			ss  << "c:" << send << ";"
+				<< "l:" << it->_id << ";"
+				<< "p:" << fixed << setprecision(3) << m_pos_parent.x << "," << m_pos_parent.y << "," << m_pos_parent.z << ";"
+				<< "q:" << m_qr_parent.x << "," << m_qr_parent.y << "," << m_qr_parent.z << "," << m_qr_parent.w << ";"
+				<< "\n";
+		}
+		else {
+			ss  << "c:" << send << ";"
+				<< "l:" << it->_id << ";"
+				<< "d:" << it->_isDynamic << ";"
+				<< "k:" << it->_isKinematic << ";"
+				<< "p:" << fixed << setprecision(3) << m_pos_parent.x << "," << m_pos_parent.y << "," << m_pos_parent.z << ";"
+				<< "q:" << m_qr_parent.x << "," << m_qr_parent.y << "," << m_qr_parent.z << "," << m_qr_parent.w << ";"
+				<< "g:" << it->_geometoryInfo << ";"
+				<< "\n";
+		}
+	}
 	return ss.str();
+	//for (auto itr = dataHolder.begin(); itr != dataHolder.end(); ++itr) {
+	//	auto obj = itr->second;
+	//	auto pose = obj->_objectData->getGlobalPose();
+	//	auto tr = pose.p;
+	//	auto qr = pose.q;
+	//	ss << "c:" << send << ";"
+	//		<< "l:" << itr->first << ";"
+	//		<< "d:" << obj->_isDynamic << ";"
+	//		<< "k:" << obj->_isKinematic << ";"
+	//		<< "p:" << fixed << setprecision(3) << tr.x << "," << tr.y << "," << tr.z << ";"
+	//		<< "q:" << qr.x << "," << qr.y << "," << qr.z << "," << qr.w << ";"
+	//		<< "g:" << obj->_geometoryInfo << ";" << "\n";
+	//}
+
 }
 
-//�f�[�^���󂯎���Ċ��ɔ��f
-//��{�I��override���Ďg���̂Ńe���v���[�g�I�Ȃ���
-//���擾���������؂�o������
 void IPhysxEnvirement::ReflectData2Envirement() {
 	if (_gScene == NULL)return;
 	//vector<string> objectDataList= MyExtention::Split(reflect, '\n');

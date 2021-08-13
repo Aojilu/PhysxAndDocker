@@ -16,6 +16,11 @@ using namespace physx;
 using namespace std;
  class IPhysxEnvirement
 {
+private:
+	//キャッシュ
+	PxTransform m_tr_parent;
+	PxVec3 m_pos_parent;
+	PxQuat m_qr_parent;
 protected:
 	//queue< string >_reflectData;//受け取ったシーンのデータを保管する変数
 	PxScene* _gScene = NULL;
@@ -23,7 +28,7 @@ protected:
 	//ObjectDataHolder* _dataHolder = NULL;
 
 	//string GetLog(int containercount);
-	string CreateLog(int serchContainer,int sendContainer);
+	string CreateLog(int serchContainer,int sendContainer,bool isLight);
 
 public:
 	IPhysxEnvirement(){}
@@ -31,6 +36,7 @@ public:
 	virtual void UpdateEnviroment(float dt);
 	virtual void CreateFrameMessage();//フレームの返送要求を送信
 	virtual void keyPress(unsigned char key, const PxTransform& camera);
+	virtual bool isNeedUpdate() { return true; }
 
 	void SetScene(PxScene& gScene) {
 		_gScene = &gScene;

@@ -41,8 +41,12 @@ int main() {
 		}
 		else if (inputs[0] == "host") {
 			done = true;
-			WebSocketppFarcade::Connect(inputs[1]);
+			//WebSocketppFarcade::Connect(inputs[1]);
+			std::thread th([&]() mutable {
+				WebSocketppFarcade::Listen();
+				});
 			MyPhysxController::MainLoop_switch("glut");
+			th.join();
 		}
 		else if (inputs[0]== "client") {
 			done = true;
@@ -52,6 +56,7 @@ int main() {
 			}
 			else 	MyPhysxController::MainLoop_switch("websocket");
 			WebSocketppFarcade::ConnectAndRecieve(inputs[1]);
+			//WebSocketppFarcade::Connect(inputs[1]);
 		}
 		else {
 			std::cout << "> Unrecognized Command" << std::endl;

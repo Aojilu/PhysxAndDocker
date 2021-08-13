@@ -4,6 +4,7 @@
 #include "TimeStamp.h"
 #include "OrderCommandRegister.h"
 #include "CSVOutPutFactory.h"
+#include "PhysXFarcade.h"
 class NormalPhysxEnvirement_child :
     public IPhysxEnvirement
 {
@@ -27,20 +28,32 @@ class NormalPhysxEnvirement_child :
 
 
 
-	CSVOutPutFactory _csvOutPutFactory;
-	TimeStamp _timeStamp;
-	long long beforeTime = 0;
+	CSVOutPutFactory* _csvOutPutFactory;
+
+	bool m_startSimulate = false;
+	TimeStamp m_timeStamp;
+	int m_easyHostCount = 0;
+	//ƒLƒƒƒbƒVƒ…
+	PxTransform m_transform;
+	PxVec3 m_pos;
+	PxQuat m_quat;
+	ObjectData_toHolder* m_targetObject;
+	vector<string> m_objectDataList;
+	vector<string> m_labelList;
 public:
 	void InitPhysicsEnviourment() override;
 	void UpdateEnviroment(float dt) override;
-	//void CreateFrameMessage() override {};
+	void CreateFrameMessage() override;
 	void keyPress(unsigned char key, const PxTransform& camera) override;
 	void ReflectData2Envirement() override;
 	//int JudgePartialSpaceNumber(PxVec3 pos)override;
 	void HashLogSet() override;
 	void SetReflectData(string data) override;
+	bool isNeedUpdate()override;
 
 	void CreateStack_ballpool(int lx, float height, int lz, float ballsize);
 	void ChengeBallSpeed(float dv);
+
+	void MoveWall(float dt);
 };
 

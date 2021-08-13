@@ -101,29 +101,21 @@ namespace PhysxMain {
         _physxEnvirement->keyPress(key, camera);
 	}
 
+
     //int stepcount1 = 30;
     //int stepcount2 = 30;
-	void StepPhysics(float dt)
-	{
-        _physxEnvirement->UpdateEnviroment(dt);
+    void StepPhysics(float dt)
+    {
+        //_physxEnvirement->UpdateEnviroment(dt);
+
         gScene->simulate(dt);
         gScene->fetchResults(true);
 
-        //stepcount1++;
-        //stepcount2++;
-        //if (stepcount1 > 5) {//オブジェクトデータ反映
-        //    stepcount1 = 0;
-        //    _physxEnvirement->ReflectData2Envirement();
-        //}
-        //_physxEnvirement->ReflectData2Envirement();
-#if MAKE_OBJECTDATA
-        if (stepcount2 > 300) {//オブジェクトデータ作成
-            stepcount2 = 0;
-            _physxEnvirement->HashLogSet();
-        }
-#endif
+    }
 
-	}
+    void StepEnvirement(float dt) {
+        _physxEnvirement->UpdateEnviroment(dt);
+    }
 
     void SendBackMessage() {
         _physxEnvirement->CreateFrameMessage();
@@ -146,5 +138,9 @@ namespace PhysxMain {
         }
         _physxEnvirement->SetReflectData(input);
         //_physxEnvirement->ReflectData2Envirement();
+    }
+
+    bool IsNeedUpdate() {
+        return _physxEnvirement->isNeedUpdate();
     }
 }

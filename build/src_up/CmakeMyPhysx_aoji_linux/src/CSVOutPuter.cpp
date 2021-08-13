@@ -25,6 +25,7 @@ bool CSVOutPuter::TryAddData(float data) {
 
 string CSVOutPuter::GetOutPutText() {
 	stringstream ss;
+	ss << _title << ",";
 	for (int i = 0; i < _outData.size(); i++) {
 		ss << _outData[i] << ",";
 	}

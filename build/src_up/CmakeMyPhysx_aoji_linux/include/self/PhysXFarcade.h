@@ -8,6 +8,7 @@
 #include "IPhysxEnvirement.h"
 #include "IPhysxObjectCreator.h"
 #include "CSVOutPutFactory.h"
+#include "WebSocketppFarcade.h"
 
 namespace PhysXFarcade {
 	//void Awake();
@@ -28,4 +29,12 @@ namespace PhysXFarcade {
 	//‹L˜^—p
 	void StartCSVRecord();
 	void EndCSVRecord();
+
+	CSVOutPutFactory* GetCSVFactory();
+	bool isActiveRecord();
+
+	void AddFrameCount();
+	//void AddMissFrameCount();
+	//void AddSendCount();
+	//void AddRecieveCount();
 }

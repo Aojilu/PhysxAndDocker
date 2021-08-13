@@ -1141,13 +1141,20 @@ CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o: ../include/physxshare
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o: ../include/physxshared/include/foundation/windows/PxWindowsIntrinsics.h
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o: ../include/self/CSVOutPutFactory.h
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o: ../include/self/CSVOutPuter.h
+CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o: ../include/self/Camera.h
+CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o: ../include/self/DtCulcurator.h
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o: ../include/self/Flags.h
+CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o: ../include/self/FrameAction.h
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o: ../include/self/IJudgePartial.h
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o: ../include/self/IPhysxEnvirement.h
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o: ../include/self/IPhysxObjectCreator.h
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o: ../include/self/MyExtention.h
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o: ../include/self/NormalPhysxEnvirement.h
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o: ../include/self/ObjectDataHolder.h
+CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o: ../include/self/PhysXFarcade.h
+CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o: ../include/self/PhysxMain.h
+CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o: ../include/self/RenderActor.h
+CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o: ../include/self/RenderRogic.h
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o: ../include/self/SimpleJudgePartial.h
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o: ../include/self/TimeStamp.h
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement.cpp.o: ../include/self/WebSocketppFarcade.h
@@ -1331,6 +1338,10 @@ CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o: ../include/phys
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o: ../include/physxshared/include/foundation/windows/PxWindowsIntrinsics.h
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o: ../include/self/CSVOutPutFactory.h
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o: ../include/self/CSVOutPuter.h
+CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o: ../include/self/Camera.h
+CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o: ../include/self/DtCulcurator.h
+CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o: ../include/self/Flags.h
+CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o: ../include/self/FrameAction.h
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o: ../include/self/IJudgePartial.h
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o: ../include/self/IPhysxEnvirement.h
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o: ../include/self/IPhysxObjectCreator.h
@@ -1338,6 +1349,10 @@ CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o: ../include/self
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o: ../include/self/NormalPhysxEnvirement_child.h
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o: ../include/self/ObjectDataHolder.h
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o: ../include/self/OrderCommandRegister.h
+CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o: ../include/self/PhysXFarcade.h
+CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o: ../include/self/PhysxMain.h
+CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o: ../include/self/RenderActor.h
+CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o: ../include/self/RenderRogic.h
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o: ../include/self/TimeStamp.h
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o: ../include/self/WebSocketppFarcade.h
 CMakeFiles/myPhysXSDK.dir/src/NormalPhysxEnvirement_child.cpp.o: ../src/NormalPhysxEnvirement_child.cpp
@@ -1706,6 +1721,7 @@ CMakeFiles/myPhysXSDK.dir/src/PhysXFarcade.cpp.o: ../include/self/CSVOutPutFacto
 CMakeFiles/myPhysXSDK.dir/src/PhysXFarcade.cpp.o: ../include/self/CSVOutPuter.h
 CMakeFiles/myPhysXSDK.dir/src/PhysXFarcade.cpp.o: ../include/self/Camera.h
 CMakeFiles/myPhysXSDK.dir/src/PhysXFarcade.cpp.o: ../include/self/DtCulcurator.h
+CMakeFiles/myPhysXSDK.dir/src/PhysXFarcade.cpp.o: ../include/self/Flags.h
 CMakeFiles/myPhysXSDK.dir/src/PhysXFarcade.cpp.o: ../include/self/FrameAction.h
 CMakeFiles/myPhysXSDK.dir/src/PhysXFarcade.cpp.o: ../include/self/IJudgePartial.h
 CMakeFiles/myPhysXSDK.dir/src/PhysXFarcade.cpp.o: ../include/self/IPhysxEnvirement.h
@@ -1716,6 +1732,8 @@ CMakeFiles/myPhysXSDK.dir/src/PhysXFarcade.cpp.o: ../include/self/PhysXFarcade.h
 CMakeFiles/myPhysXSDK.dir/src/PhysXFarcade.cpp.o: ../include/self/PhysxMain.h
 CMakeFiles/myPhysXSDK.dir/src/PhysXFarcade.cpp.o: ../include/self/RenderActor.h
 CMakeFiles/myPhysXSDK.dir/src/PhysXFarcade.cpp.o: ../include/self/RenderRogic.h
+CMakeFiles/myPhysXSDK.dir/src/PhysXFarcade.cpp.o: ../include/self/TimeStamp.h
+CMakeFiles/myPhysXSDK.dir/src/PhysXFarcade.cpp.o: ../include/self/WebSocketppFarcade.h
 CMakeFiles/myPhysXSDK.dir/src/PhysXFarcade.cpp.o: ../src/PhysXFarcade.cpp
 
 CMakeFiles/myPhysXSDK.dir/src/PhysxMain.cpp.o: ../include/physx/include/PxActor.h

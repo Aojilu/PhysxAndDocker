@@ -1,5 +1,6 @@
 #pragma once
 #include"IPhysxEnvirement.h"
+#include "PhysXFarcade.h"
 #include "PxPhysicsAPI.h"
 #include<iostream>
 #include "IPhysxObjectCreator.h"
@@ -13,7 +14,7 @@ class NormalPhysxEnvirement :
     public IPhysxEnvirement
 {
 	int length_x = 10;
-	int height = 10;
+	int height = 20;
 	int length_z = 10;
 	float _ballsize = 1.0f;
 	PxRigidDynamic* moveWall1 = NULL;
@@ -32,16 +33,21 @@ class NormalPhysxEnvirement :
 
 	int clientCount = 2;//クライアントの数　まだ固定値
 	vector<bool> isWaiting;
-	vector<string> returnData;
+	//vector<string> returnData;
+	vector<queue<string>*> returnData;//受け取ったらためていく
 
 	bool _islocal;
 
 	TimeStamp _timeStamp;
-	CSVOutPutFactory _csvOutPutFactory;
-	//TimeStamp* test_stamp=NULL;
-	//string test_stamp_s;
+	CSVOutPutFactory* _csvOutPutFactory=NULL;
 
-	long long beforetime;
+	//キャッシュ
+	PxTransform m_transform;
+	PxVec3 m_pos;
+	PxQuat m_quat;
+	ObjectData_toHolder* m_targetObject=NULL;
+	vector<string> m_objectDataList;
+	vector<string> m_labelList;
 public:
 	NormalPhysxEnvirement(bool local):IPhysxEnvirement() {
 		_islocal = local;
@@ -55,9 +61,11 @@ public:
 	  IJudgePartial* GetJudgePartial()override {
 		  return new SimpleJudgePartial();
 	  }
+	  bool isNeedUpdate()override;
 
 	   void SetReflectData(string data) override;
 	  void CreateStack_ballpool(float xstart, float height, float zstart, int xCount, int zCount, float ballsize);
 	  void ChengeBallSpeed(float dv);
+	  void MoveWall(float dt);
 };
 

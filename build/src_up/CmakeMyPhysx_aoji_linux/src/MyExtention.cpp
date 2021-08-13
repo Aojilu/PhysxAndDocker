@@ -1,6 +1,6 @@
 #include "MyExtention.h"
 
-std::vector<std::string> MyExtention::Split(std::string str, char del) {
+std::vector<std::string> MyExtention::Split(const std::string& str, char del) {
 	int first = 0;
 	int last = str.find_first_of(del);
 	std::vector<std::string> result;
@@ -21,6 +21,5 @@ std::vector<std::string> MyExtention::Split(std::string str, char del) {
 			last = str.size();
 		}
 	}
-
 	return result;
 }
